@@ -2,22 +2,16 @@
     import {supabase} from '$lib/supabase';
 
     let promise = supabase.from('countries').select();
-
-    let country;
 </script>
 
-<h1>Aufgaben</h1>
-<ul>
-    <li>anstatt eines Js-Objekts, das auf der Seite dargestellt wird, möchte ich eine Liste aller Länder</li>
-    <li>integriere einen loading spinner oÄ von daisyUI </li>
-    <li>gib die Vercel URL zu deinem Projekt via Aufgabe in Teams ab</li>
-</ul>
 
 {#await promise}
-    <div>Loading...</div> 
+<center><span class="loading loading-spinner loading-lg"></span></center>
 {:then result}
-    {#each country as country}
-        <li>{JSON.stringify(result)}</li>
-    {/each} 
-    
+<center><h1>Country List</h1></center>
+    <ul>
+        {#each result.data as country}
+            <li>{country.name}</li>
+        {/each}
+    </ul>
 {/await}
