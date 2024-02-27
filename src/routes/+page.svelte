@@ -2,6 +2,8 @@
     import {supabase} from '$lib/supabase';
 
     let promise = supabase.from('countries').select();
+
+    let country;
 </script>
 
 <h1>Aufgaben</h1>
@@ -13,6 +15,9 @@
 
 {#await promise}
     <div>Loading...</div> 
-{:then result} 
-    <div>{JSON.stringify(result)}</div>
+{:then result}
+    {#each country as country}
+        <li>{JSON.stringify(result)}</li>
+    {/each} 
+    
 {/await}
