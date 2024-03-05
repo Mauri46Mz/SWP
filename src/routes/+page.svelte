@@ -1,17 +1,21 @@
 <script>
-    import {supabase} from '$lib/supabase';
+    import { supabase } from '$lib/supabase';
 
     let promise = supabase.from('countries').select();
 </script>
 
-
 {#await promise}
-<center><span class="loading loading-spinner loading-lg"></span></center>
+    <div class="flex justify-center items-center h-screen">
+        <span class="loading loading-spinner loading-lg"></span>
+    </div>
 {:then result}
-<center><h1>Country List</h1></center>
-    <ul>
-        {#each result.data as country}
-            <li>{country.name}</li>
-        {/each}
-    </ul>
+    <div class="text-center">
+        <h1 class="text-4xl font-bold mb-4">Country List</h1>
+    </div>
+        <ul>
+            {#each result.data as country}
+                <li>{country.name}</li>
+            {/each}
+        </ul>
+    
 {/await}
