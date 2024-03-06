@@ -1,18 +1,22 @@
 <script lang="ts">
   import { supabase } from '$lib/supabase'
+  import { session } from '$lib/store'
+  
             
             let loading = false
             let email = ''
+            let showAlert =false;
             
             const handleLogin = async () => {
                 try {
                     loading = true
                     const { error } = await supabase.auth.signInWithOtp({ email })
                     if (error) throw error
-                    alert('Check your email for login link!')
+                    showAlert = true
+                    
                 } catch (error) {
                     if (error instanceof Error) {
-                        alert(error.message)
+                        console.error(error.message)
                     }
                 } finally {
                     loading = false
@@ -23,12 +27,35 @@
 
   
 <style>
-    /* Custom styles */
+
     .form-container {
-        max-width: 400px; /* Adjust as needed */
+        max-width: 400px; 
         margin: 0 auto;
     }
+
+    .alert {
+        width: 80%;
+        max-width: 400px; 
+        margin: 0 auto; 
+        padding: 20px;
+        border-radius: 10px; 
+        text-align: center; 
+        background-color: #D1FAE5; 
+        border: 1px solid #10B981;
+    }
+
+    .alert svg {
+        vertical-align: middle;
+        margin-right: 10px;
+    }
 </style>
+
+{#if showAlert = true}
+<div role="alert" class="alert">
+    <svg xmlns="http://www.w3.org/2000/svg" class="stroke-current shrink-0 h-6 w-6" fill="none" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+    <span>Check your e-mail for a login link!</span>
+</div>
+{/if}
 
 <div class="flex justify-center items-center h-screen">
     <div class="form-container bg-white p-8 rounded-lg shadow-md">
@@ -52,3 +79,5 @@
         </form>
     </div>
 </div>
+
+
