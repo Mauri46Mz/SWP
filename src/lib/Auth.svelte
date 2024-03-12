@@ -1,4 +1,4 @@
-<script lang="ts">
+<script lang="js">
   import { supabase } from '$lib/supabase'
   import { session } from '$lib/store'
   

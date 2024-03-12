@@ -3,6 +3,7 @@
     import type { AuthSession } from '@supabase/supabase-js'
     import { supabase } from '$lib/supabase'
     import { session } from '$lib/store'
+    import Avatar from '$lib/Avatar.svelte';
 
     let loading = false
     let username: string | null = null
@@ -67,6 +68,7 @@
         }
     }
 </script>
+
 <style>
       .alert {
     width: 80%;
@@ -86,31 +88,36 @@
 </style>
 
 {#if $session}
-<form on:submit|preventDefault="{updateProfile}" class="max-w-lg mx-auto bg-white rounded-lg shadow-md p-8 my-8">
-    <div class="mb-4">
-        <label class="block text-gray-700 text-sm font-bold mb-2" for="email">Email:</label>
-        <div class="text-gray-900">{ $session.user.email }</div>
-    </div>
-    <div class="mb-4">
-        <label class="block text-gray-700 text-sm font-bold mb-2" for="username">Name:</label>
-        <input id="username" type="text" class="inputField" bind:value="{username}" />
-    </div>
-    <div class="mb-4">
-        <label class="block text-gray-700 text-sm font-bold mb-2" for="website">Website:</label>
-        <input id="website" type="text" class="inputField" bind:value="{website}" />
-    </div>
-    <div class="mb-4">
-        <button type="submit" class="button primary block" disabled="{loading}">
-            {loading ? 'Saving ...' : 'Update profile'}
-        </button>
-    </div>
-    <div>
-        <button type="button" class="button block" on:click={() => supabase.auth.signOut()}> Sign Out </button>
-    </div>
+<form on:submit|preventDefault="{updateProfile}" class="flex flex-col max-w-lg mx-auto bg-white rounded-lg shadow-md p-8 my-8">
+  <div class="flex justify-center mb-8">
+    <Avatar size={150} bind:url={avatarUrl} on:upload={updateProfile}/>
+  </div>
+
+  <div class="mb-4">
+    <label class="block text-gray-700 text-sm font-bold mb-2" for="email">Email:</label>
+    <div class="text-gray-900">{ $session.user.email }</div>
+  </div>
+  <div class="mb-4">
+    <label class="block text-gray-700 text-sm font-bold mb-2" for="username">Name:</label>
+    <input id="username" type="text" class="inputField" bind:value="{username}" />
+  </div>
+  <div class="mb-4">
+    <label class="block text-gray-700 text-sm font-bold mb-2" for="website">Website:</label>
+    <input id="website" type="text" class="inputField" bind:value="{website}" />
+  </div>
+  <div class="mb-4">
+    <button type="submit" class="button bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none disabled:bg-gray-400 disabled:cursor-not-allowed">
+      {loading ? 'Saving ...' : 'Update profile'}
+    </button>
+  </div>
+  <div>
+    <button type="button" class="text-blue-500 hover:text-blue-700 underline" on:click={() => supabase.auth.signOut()}> Sign Out </button>
+  </div>
 </form>
 {:else}
 <div role="alert" class="alert">
-    <svg xmlns="http://www.w3.org/2000/svg" class="stroke-current shrink-0 h-6 w-6" fill="none" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" /></svg>
-    <span>Seems like you are not logged in!</span>
-  </div>
+  <svg xmlns="http://www.w3.org/2000/svg" class="stroke-current shrink-0 h-6 w-6" fill="none" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" /></svg>
+  <span>Seems like you are not logged in!</span>
+</div>
 {/if}
+
