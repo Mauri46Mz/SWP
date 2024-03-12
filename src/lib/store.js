@@ -11,3 +11,4 @@ export const theme = writable(localStorage.theme ? JSON.parse(localStorage.theme
 theme.subscribe(value => {
     localStorage.theme = JSON.stringify(value);
 });
+
