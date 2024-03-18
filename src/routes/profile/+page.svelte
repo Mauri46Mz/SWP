@@ -2,8 +2,13 @@
     import { onMount } from 'svelte'
     import type { AuthSession } from '@supabase/supabase-js'
     import { supabase } from '$lib/supabase'
-    import { session } from '$lib/store'
+    import { ALERT_TYPE, displayAlert, session } from '$lib/store'
     import Avatar from '$lib/Avatar.svelte';
+	import Alert from '$lib/Alert.svelte';
+
+
+
+
 
     let loading = false
     let username: string | null = null
@@ -12,6 +17,11 @@
 
     onMount(() => {
         getProfile()
+        if($session){
+        return null
+    }else{
+        displayAlert('You need to be logged in to access this page',ALERT_TYPE.INFO)
+    }
     })
 
     async function getProfile(){
@@ -34,7 +44,7 @@
             }
         } catch (error) {
             if (error instanceof Error) {
-                console.error(error.message)
+                console.error(error.message);
             }
         } finally {
             loading = false
@@ -67,25 +77,16 @@
             loading = false
         }
     }
+    
+    function loginAlert(){
+        displayAlert('You need to be logged in to access this page', ALERT_TYPE.INFO)
+    }
+    
 </script>
 
-<style>
-      .alert {
-    width: 80%;
-    max-width: 400px;
-    margin: 0 auto; 
-    padding: 20px;
-    border-radius: 10px; 
-    text-align: center; 
-    background-color: #fff3cd; 
-    border: 1px solid #ffeeba; 
-  }
-
-  .alert svg {
-    vertical-align: middle;
-    margin-right: 10px; 
-  }
-</style>
+<div class="text-center">
+    <h1 class="text-4xl font-bold mb-4">Profile</h1>
+</div>
 
 {#if $session}
 <form on:submit|preventDefault="{updateProfile}" class="flex flex-col max-w-lg mx-auto bg-white rounded-lg shadow-md p-8 my-8">
@@ -111,13 +112,12 @@
     </button>
   </div>
   <div>
-    <button type="button" class="text-blue-500 hover:text-blue-700 underline" on:click={() => supabase.auth.signOut()}> Sign Out </button>
+    <button type="button" class="text-blue-500 hover:text-blue-700 underline" on:click={() => supabase.auth.signOut()} on:click={loginAlert}> Sign Out </button>
   </div>
 </form>
 {:else}
-<div role="alert" class="alert">
-  <svg xmlns="http://www.w3.org/2000/svg" class="stroke-current shrink-0 h-6 w-6" fill="none" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" /></svg>
-  <span>Seems like you are not logged in!</span>
+<div>
+<Alert />
 </div>
 {/if}
 
