@@ -8,9 +8,9 @@ session.subscribe(value => {
 
 export const theme = writable(localStorage.theme || "dark");
 
-theme.subscribe(value => {
-    localStorage.theme = JSON.stringify(value);
-});
+// theme.subscribe(value => {
+//     localStorage.theme = JSON.stringify(value);
+// });
 
 export const ALERT_TYPE = {
     DANGER: "danger",
