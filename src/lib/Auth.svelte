@@ -14,7 +14,7 @@
   
         if (error) throw error;
         
-        displayAlert('Check your email for the login link', ALERT_TYPE.SUCCESS)
+        displayAlert('Check your email for the login link', ALERT_TYPE.SUCCSESS)
   
       } catch (error) {
         if (error instanceof Error) {
