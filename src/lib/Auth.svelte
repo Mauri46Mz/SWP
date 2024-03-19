@@ -38,8 +38,8 @@
     <span><Alert /></span>
 </div>
 
-  <div class="flex justify-center items-center h-screen">
-    <div class="form-container bg-white p-8 rounded-lg shadow-md">
+  <div class="flex justify-center items-center h-100">
+    <div class="form-container bg-white p-20 rounded-lg shadow-md">
       <div class="text-center">
         <h1 class="text-3xl font-bold mb-4">Supabase + Svelte</h1>
         <p class="text-gray-600 mb-6">Sign in via magic link with your email below</p>
